@@ -8,20 +8,45 @@ class App extends Component {
     bad: 0,
   };
 
+  handleClickButton = (e) => {
+    this.setState((state) => ({ [e.target.name]: state[e.target.name] + 1 }));
+  };
+
+  countTotalFeedback = () => {
+    const { good, neutral, bad } = this.state;
+    return good + neutral + bad;
+  };
+
+  countPositiveFeedbackPercentage = () => {
+    return Math.round((this.state.good / this.countTotalFeedback()) * 100);
+  };
+
   render() {
+    const { good, bad, neutral } = this.state;
     return (
       <>
         <h2>Please leave feedback</h2>
-        <button>Good</button>
+        {Object.keys(this.state).map((name) => (
+          <button
+            type="button"
+            name={name}
+            key={name}
+            onClick={this.handleClickButton}
+          >
+            {name}
+          </button>
+        ))}
+
+        {/* <button>Good</button>
         <button>Neutral</button>
-        <button>Bad</button>
+        <button>Bad</button> */}
         <h2>Statistics</h2>
         <ul>
-          <li>Good: </li>
-          <li>Neutral: </li>
-          <li>Bad: </li>
-          <li>Total: </li>
-          <li>Positive feedback: </li>
+          <li>Good: {good}</li>
+          <li>Neutral: {neutral}</li>
+          <li>Bad: {bad}</li>
+          <li>Total: {this.countTotalFeedback()}</li>
+          <li>Positive feedback: {this.countPositiveFeedbackPercentage()}%</li>
         </ul>
       </>
     );

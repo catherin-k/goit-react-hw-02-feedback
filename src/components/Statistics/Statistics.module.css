@@ -1,0 +1,10 @@
+.statistics {
+  list-style: none;
+  padding: 0;
+}
+.statistics__item {
+  font-size: 20px;
+}
+.statistics__item:not(:last-child) {
+  margin-bottom: 10px;
+}

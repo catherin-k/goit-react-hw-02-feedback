@@ -4,6 +4,8 @@ import React, { Component } from "react";
 import Section from "./Section";
 
 import FeedbackOptions from "./FeedbackOptions";
+import Statistics from "./Statistics/Statistics";
+import Notification from "./Notification/Notification";
 
 class App extends Component {
   state = {
@@ -18,10 +20,6 @@ class App extends Component {
     }));
   };
 
-  // countTotalFeedback = () => {
-  //   const { good, neutral, bad } = this.state;
-  //   return good + neutral + bad;
-  // };
   countTotalFeedback = () => {
     return Object.values(this.state).reduce((total, el) => total + el, 0);
   };
@@ -40,15 +38,19 @@ class App extends Component {
             onLeaveFeedback={this.handleClickButton}
           />
         </Section>
-
-        <h2>Statistics</h2>
-        <ul>
-          <li>Good: {good}</li>
-          <li>Neutral: {neutral}</li>
-          <li>Bad: {bad}</li>
-          <li>Total: {this.countTotalFeedback()}</li>
-          <li>Positive feedback: {this.countPositiveFeedbackPercentage()}%</li>
-        </ul>
+        <Section title="Statistics">
+          {this.countTotalFeedback() ? (
+            <Statistics
+              good={good}
+              neutral={neutral}
+              bad={bad}
+              total={this.countTotalFeedback()}
+              positivePercentage={this.countPositiveFeedbackPercentage()}
+            />
+          ) : (
+            <Notification message="No feedback given" />
+          )}
+        </Section>
       </>
     );
   }

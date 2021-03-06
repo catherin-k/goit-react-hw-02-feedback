@@ -1,6 +1,10 @@
 import "./App.css";
 import React, { Component } from "react";
 
+import Section from "./Section";
+
+import FeedbackOptions from "./FeedbackOptions";
+
 class App extends Component {
   state = {
     good: 0,
@@ -9,7 +13,9 @@ class App extends Component {
   };
 
   handleClickButton = (e) => {
-    this.setState((state) => ({ [e.target.name]: state[e.target.name] + 1 }));
+    this.setState((prevState) => ({
+      [e]: prevState[e] + 1,
+    }));
   };
 
   // countTotalFeedback = () => {
@@ -28,21 +34,13 @@ class App extends Component {
     const { good, bad, neutral } = this.state;
     return (
       <>
-        <h2>Please leave feedback</h2>
-        {Object.keys(this.state).map((name) => (
-          <button
-            type="button"
-            name={name}
-            key={name}
-            onClick={this.handleClickButton}
-          >
-            {name}
-          </button>
-        ))}
+        <Section title="Please leave feedback">
+          <FeedbackOptions
+            options={this.state}
+            onLeaveFeedback={this.handleClickButton}
+          />
+        </Section>
 
-        {/* <button>Good</button>
-        <button>Neutral</button>
-        <button>Bad</button> */}
         <h2>Statistics</h2>
         <ul>
           <li>Good: {good}</li>
